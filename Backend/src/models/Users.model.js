@@ -9,12 +9,23 @@ const userSchema=new Schema({
     },
     password:{
         type: String,
-        required: true
     },
     email:{
         type: String,
         required: true
+    },
+    color:{
+        type: String,
+        required: true,
+        default: "red"
+    },
+    clerkId:{
+        type: String,
+        required: true,
+        unique: true
     }
 }, { timestamps:true })
 
-export default Users = mongoose.model("Users", userSchema)
+const User = mongoose.model("User", userSchema)
+
+export default User;

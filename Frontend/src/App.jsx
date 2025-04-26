@@ -20,6 +20,8 @@ function App() {
   const [title, setTitle]=useState(null)
   const [desc, setDesc]=useState(null)
   const [rating, setRating]=useState(0)
+
+  
   useEffect(()=>{
     const getPins=async ()=>{
       try{
