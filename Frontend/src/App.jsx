@@ -11,6 +11,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from "axios"
 import {format} from "timeago.js"
 import Pins from '../../Backend/src/models/Pins.model';
+import Navbar from './components/Navbar';
 
 
 function App() {
@@ -147,6 +148,12 @@ function App() {
           </form>
         </div>
       </Popup>}
+      {/* <div className='absolute top-0'>
+        <button className='text-white bg-blue-600 px-4 py-2'>Login</button>
+        <button className='text-white bg-red-600 px-4 py-2'>Register</button>
+        <button className='text-white bg-green-600 px-4 py-2'>Logout</button>
+      </div> */}
+      <Navbar />
       <FullscreenControl />
     </Map>
   );
