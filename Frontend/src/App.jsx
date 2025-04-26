@@ -3,17 +3,22 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Map, {Marker, Popup, FullscreenControl} from 'react-map-gl/mapbox';
+import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import RoomIcon from '@mui/icons-material/Room';
 import CircleIcon from '@mui/icons-material/Circle';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from "axios"
 import {format} from "timeago.js"
+import Pins from '../../Backend/src/models/Pins.model';
 
 
 function App() {
   const [pins, setPins]=useState([])
   const [hoverId, setHoverId]=useState(null)
+  const [title, setTitle]=useState(null)
+  const [desc, setDesc]=useState(null)
+  const [rating, setRating]=useState(0)
   useEffect(()=>{
     const getPins=async ()=>{
       try{
@@ -44,6 +49,26 @@ function App() {
       lat
     })
   }
+  const handleSubmit=async (e)=>{
+    e.preventDefault()
+    const newPin={
+      username:currentUser,
+      title,
+      desc,
+      rating,
+      long:newPlace.long,
+      lat:newPlace.lat
+    }
+    try{
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/pins/`, newPin)
+      setPins([...pins, res.data])
+      console.log(res.data.rating)
+    }
+    catch(error){
+      console.log("Something went wrong....")
+    }
+    
+  }
 
   return (
     <Map
@@ -59,8 +84,8 @@ function App() {
         key={p._id}
         longitude={p.long}
         latitude={p.lat}
-        offsetLeft={-20}
-        offsetTop={-10}
+        offsetLeft={-viewport.zoom * 1.5}
+        offsetTop={-viewport.zoom * 3}
         >
         <div onMouseEnter={()=>{
           setHoverId(p._id)
@@ -76,19 +101,20 @@ function App() {
             showPopup && p._id===hoverId && <Popup longitude={p.long} latitude={p.lat}
             anchor="left" onClose={()=>{setShowPopup(false)}}>
                           <div className='card flex flex-col justify-around mx-3'>
-                            <label className='text-red-600 text-lg'>Place</label>
+                            <label className='text-red-600 text-lg label'>Place</label>
                             <h4 className='place font-bold text-lg'>{p.title}</h4>
-                            <label className='text-red-600 text-lg'>Review</label>
+                            <label className='text-red-600 text-lg label'>Review</label>
                             <p className='desc text-[14px]'>{p.desc}</p>
-                            <label className='text-red-600 text-lg rating'>Rating</label>
-                            <div className='stars'>
+                            <label className='text-red-600 text-lg rating label'>Rating</label>
+                            {/* <div className='stars'>
                               <StarIcon className='star text-yellow-400' />
                               <StarIcon className='star text-yellow-400' />
                               <StarIcon className='star text-yellow-400' />
                               <StarIcon className='star text-yellow-400' />
                               <StarIcon className='star text-yellow-400' />
-                            </div>
-                            <label className='text-red-600 text-lg'>Information</label>
+                            </div> */}
+                            <Rating name="size-medium" defaultValue={p.rating} readOnly />
+                            <label className='text-red-600 text-lg label'>Information</label>
                             <span className='username text-[14px]'>Created by<span className='font-semibold text-blue-800'>{p.username}</span></span>
                             <span className='date font-medium text-gray text-[12px]'>{format(p.createdAt)}</span>
                           </div>
@@ -102,7 +128,24 @@ function App() {
       latitude={newPlace.lat}
       anchor="left"
       onClose={()=>{setNewPlace(null)}}>
-        Hello
+        <div>
+          <form onSubmit={handleSubmit} className='flex flex-col w-[250px] h-[300px] justify-between'>
+            <label className='label'>Title</label>
+            <input onChange={(e)=>setTitle(e.target.value)} type="text" className='border-2 border-black border-solid rounded-3xl p-2' placeholder="Enter the location..." />
+            <label className='label'>Reiew</label>
+            <textarea onChange={(e)=>setDesc(e.target.value)} className='border-2 border-black border-solid rounded-2xl p-2' placeholder='Share your experience...' />
+            <label className='label'>Rating</label>
+            {/* <select>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select> */}
+            <Rating onChange={(e)=>setRating(e.target.value)} className='' name="size-medium" defaultValue={2} />
+            <button type="submit" className='bg-blue-500 text-white rounded-3xl px-4 py-2 hover:bg-blue-600 cursor-pointer' >Add Pin</button>
+          </form>
+        </div>
       </Popup>}
       <FullscreenControl />
     </Map>
