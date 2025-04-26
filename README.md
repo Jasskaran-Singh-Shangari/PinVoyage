@@ -1,1 +1,1 @@
-# 🧳 PINVOYAGE - Map Your Journey, Share Your Story
+# 🧳 PinVoyage - Map Your Journey, Share Your Story
