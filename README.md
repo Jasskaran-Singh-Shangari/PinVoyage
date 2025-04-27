@@ -29,19 +29,23 @@ PinVoyage is exactly that: a space where travelers and explorers can pin locatio
 ![GitHub forks](https://img.shields.io/github/forks/Jasskaran-Singh-Shangari/pinvoyage?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/Jasskaran-Singh-Shangari/pinvoyage?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/Jasskaran-Singh-Shangari/pinvoyage?color=yellow)
-![GitHub License](https://img.shields.io/github/license/Jasskaran-Singh-Shangari/pinvoyage?color=orange)
+![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Jasskaran-Singh-Shangari/pinvoyage)
 
 
 ## 🚀 Upcoming Features
 📷 Picture Upload — Share your memories visually by uploading images with your stories.  
 🎨 Theme Selection — Personalize your experience with multiple color themes and styles.
+📍 GPS - For faster experience.
 
 <img src="https://github.com/Jasskaran-Singh-Shangari/PinVoyage/blob/main/MapTheme1.png" alt="Image Alt Text" width="600" height="500">
 <img src="https://github.com/Jasskaran-Singh-Shangari/PinVoyage/blob/main/MapTheme2.png" alt="Image Alt Text" width="600" height="500">
 <img src="https://github.com/Jasskaran-Singh-Shangari/PinVoyage/blob/main/MapTheme3.png" alt="Image Alt Text" width="600" height="500">
 
+## License ⚖️
+This project is licensed under the GNU GPLv3 License 📝 - see the [LICENSE](LICENSE) file for details. 📂
 
-##📬 Contact
+## 📬 Contact
 If you have ideas, feedback, or want to collaborate — feel free to reach out!
 Let's make PinVoyage a global map of memories. 🌍❤️
+
