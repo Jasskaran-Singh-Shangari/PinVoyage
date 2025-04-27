@@ -26,6 +26,11 @@ const pinSchema=new Schema({
         required: true,
         min:0,
         max: 5,
+    },
+    color:{
+        type: String,
+        required: true,
+        default: "red"
     }
 }, { timestamps: true })
 

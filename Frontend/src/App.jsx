@@ -12,20 +12,23 @@ import axios from "axios"
 import {format} from "timeago.js"
 import Pins from '../../Backend/src/models/Pins.model';
 import Navbar from './components/Navbar';
-
+import { useAuth } from '@clerk/clerk-react';
+import { useUser } from '@clerk/clerk-react';
 
 function App() {
   const [pins, setPins]=useState([])
+  const [userInfo, setUserInfo]=useState({})
   const [hoverId, setHoverId]=useState(null)
   const [title, setTitle]=useState(null)
   const [desc, setDesc]=useState(null)
   const [rating, setRating]=useState(0)
-
+  const {isSignedIn, user, isLoaded}= useUser()
+  const [currentUser,setCurrentUser]=useState()
   
   useEffect(()=>{
     const getPins=async ()=>{
       try{
-        const res=await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/pins`)
+        const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/pins/`)
         setPins(res.data)
       }
       catch(error){
@@ -33,14 +36,61 @@ function App() {
       }
     }
     getPins()
-  }, [])
+  }, []) 
+
+  // if (!isSignedIn){
+  //   console.log(user)
+  // }
+
+  // const { getToken } = useAuth();
+
+  //   const getUser = async () => {
+  //     try {
+  //       const token = await getToken(); 
+  //       const user = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, 
+  //         },
+  //       });
+  //       // console.log(user.data.color);
+  //       setUser(user.data);
+  //     } catch (error) {
+  //       console.log(`ERROR: ${error}`);
+  //     }
+  //   }
+  //   getUser()
+
+  // if (isSignedIn){
+  //   setCurrentUser(user.username)
+  // }
+  // else{
+  //   setCurrentUser("Guest")
+  // }
+
+  useEffect(()=>{
+    const getUser=async ()=>{
+      try {
+        const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/`, user)
+        // console.log(data)
+        setUserInfo(data)
+        setCurrentUser(data.username)
+      } catch (error) {
+        console.log(`ERROR:${error}`)
+      }
+    }
+    if (isSignedIn && user){
+      getUser()
+    }
+  }, [isSignedIn])
+
+
   const [viewport, setViewport] = useState({
     longitude: 76.78,
     latitude: 30.73,
     zoom: 12
   });
+
   const [showPopup,setShowPopup]=useState(false)
-  const currentUser="John"
   const [newPlace, setNewPlace]=useState(null)
   
   const handleAddClick=(e)=>{
@@ -60,17 +110,17 @@ function App() {
       desc,
       rating,
       long:newPlace.long,
-      lat:newPlace.lat
+      lat:newPlace.lat,
+      color: userInfo.color
     }
     try{
       const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/pins/`, newPin)
       setPins([...pins, res.data])
-      console.log(res.data.rating)
+      // console.log(res.data.rating)
     }
     catch(error){
       console.log("Something went wrong....")
     }
-    
   }
 
   return (
@@ -97,7 +147,7 @@ function App() {
             setHoverId(null)
             setShowPopup(false)}}>
           < RoomIcon style={{ fontSize: viewport.zoom * 3, 
-          color: p.username===currentUser?"tomato":"slateblue", 
+          color: p.color, 
           cursor:"pointer" }}  
           />
           {

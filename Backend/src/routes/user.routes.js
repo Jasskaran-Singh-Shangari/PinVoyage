@@ -3,6 +3,6 @@ import { getCurrentUser } from "../controllers/User.controller.js";
 
 const router = Router()
 
-router.route("/getUser", getCurrentUser)
+router.route("/").post( getCurrentUser )
 
 export default router;
