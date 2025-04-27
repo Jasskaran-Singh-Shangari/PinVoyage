@@ -24,7 +24,9 @@ function App() {
   const [rating, setRating]=useState(0)
   const {isSignedIn, user, isLoaded}= useUser()
   const [currentUser,setCurrentUser]=useState()
+  const [mapTheme, setMapTheme]=useState()
   
+
   useEffect(()=>{
     const getPins=async ()=>{
       try{
@@ -153,7 +155,7 @@ function App() {
           {
             showPopup && p._id===hoverId && <Popup longitude={p.long} latitude={p.lat}
             anchor="left" onClose={()=>{setShowPopup(false)}}>
-                          <div className='card flex flex-col justify-around mx-3'>
+                          <div className='card flex flex-col justify-start mx-3 popup-box'>
                             <label className='text-red-600 text-lg label'>Place</label>
                             <h4 className='place font-bold text-lg'>{p.title}</h4>
                             <label className='text-red-600 text-lg label'>Review</label>
@@ -166,9 +168,9 @@ function App() {
                               <StarIcon className='star text-yellow-400' />
                               <StarIcon className='star text-yellow-400' />
                             </div> */}
-                            <Rating name="size-medium" defaultValue={p.rating} readOnly />
-                            <label className='text-red-600 text-lg label'>Information</label>
-                            <span className='username text-[14px]'>Created by<span className='font-semibold text-blue-800'>{p.username}</span></span>
+                            <Rating name="size-medium" className='my-2' defaultValue={p.rating} readOnly />
+                            <label className='text-red-600 text-lg label '>Information</label>
+                            <span className='username text-[14px]'>Created by<span className='font-semibold text-blue-800'><span>  </span>{p.username}</span></span>
                             <span className='date font-medium text-gray text-[12px]'>{format(p.createdAt)}</span>
                           </div>
                           </Popup>
@@ -180,13 +182,14 @@ function App() {
       longitude={newPlace.long}
       latitude={newPlace.lat}
       anchor="left"
-      onClose={()=>{setNewPlace(null)}}>
-        <div>
-          <form onSubmit={handleSubmit} className='flex flex-col w-[250px] h-[300px] justify-between'>
+      onClose={()=>{setNewPlace(null)}}
+      className=''>
+        <div className='popup-box'>
+          <form onSubmit={handleSubmit} className='flex flex-col w-[250px] h-[300px] justify-between text-lg'>
             <label className='label'>Title</label>
-            <input onChange={(e)=>setTitle(e.target.value)} type="text" className='border-2 border-black border-solid rounded-3xl p-2' placeholder="Enter the location..." />
+            <input onChange={(e)=>setTitle(e.target.value)} type="text" className='p-2' placeholder="Enter the location..." />
             <label className='label'>Reiew</label>
-            <textarea onChange={(e)=>setDesc(e.target.value)} className='border-2 border-black border-solid rounded-2xl p-2' placeholder='Share your experience...' />
+            <textarea onChange={(e)=>setDesc(e.target.value)} className=' p-2' placeholder='Share your experience...' />
             <label className='label'>Rating</label>
             {/* <select>
               <option value="1">1</option>
@@ -195,7 +198,7 @@ function App() {
               <option value="4">4</option>
               <option value="5">5</option>
             </select> */}
-            <Rating onChange={(e)=>setRating(e.target.value)} className='' name="size-medium" defaultValue={2} />
+            <Rating onChange={(e)=>setRating(e.target.value)} className='my-5' name="size-medium" defaultValue={2} />
             <button type="submit" className='bg-blue-500 text-white rounded-3xl px-4 py-2 hover:bg-blue-600 cursor-pointer' >Add Pin</button>
           </form>
         </div>

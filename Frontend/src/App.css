@@ -6,8 +6,28 @@
     border-bottom: 2px solid rgb(46, 133, 255);
     width: max-content;
     font-style: 13px;
+    font-family: "Kaushan Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+    /* margin-top:2;
+    margin-bottom: 5; */
 }
 
 input::placeholder, textarea::placeholder{
     font-size: 13px;
 }
+
+input, textarea{
+    border-bottom: 2px solid gray;
+    font-size: 13px;
+    /* border-radius: 9%; */
+}
+
+.popup-box {
+    background-color: white;
+    padding: 12px;
+    border-radius: 12px; /* Makes the corners round */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5); 
+    font-size: 14px;
+    height: 350px;
+  }
