@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -15,6 +15,8 @@ import Navbar from './components/Navbar';
 // import { useAuth } from '@clerk/clerk-react';
 import { useUser } from '@clerk/clerk-react';
 import { toast } from 'react-toastify';
+import ThemeContextProvider from './Context/ThemeContextProvider';
+import ThemeContext  from './Context/ThemeContext';
 
 
 function App() {
@@ -26,7 +28,8 @@ function App() {
   const [rating, setRating]=useState(0)
   const {isSignedIn, user, isLoaded}= useUser()
   const [currentUser,setCurrentUser]=useState()
-  const [mapTheme, setMapTheme]=useState()
+  // const [mapTheme, setMapTheme]=useState()
+  const {theme}=useContext(ThemeContext)
   
 
   useEffect(()=>{
@@ -41,6 +44,10 @@ function App() {
     }
     getPins()
   }, []) 
+
+  useEffect(()=>{
+    console.log(theme)
+  }, [theme])
 
   // if (!isSignedIn){
   //   console.log(user)
@@ -140,7 +147,7 @@ function App() {
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN}
       initialViewState={viewport}
       style={{ width: '100vw', height: '100vh' }}
-      mapStyle="mapbox://styles/rebel-osuda/cm9vdpp4y002h01r13j8i9l95"
+      mapStyle={theme}
       onMove={nextViewport => setViewport(nextViewport.viewState)} 
       onDblClick={handleAddClick}
     >
