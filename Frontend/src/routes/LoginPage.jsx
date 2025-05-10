@@ -1,5 +1,6 @@
 import { SignIn } from '@clerk/clerk-react'
 import React from 'react'
+import { assets } from "../assets/assets.js"
 
 const LoginPage = () => {
   return (

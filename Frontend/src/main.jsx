@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import MainLayout from './layout/MainLayout.jsx'
 import LoginPage from './routes/LoginPage.jsx'
 import Register from './routes/Register.jsx'
+import { ToastContainer, Zoom } from 'react-toastify';
+
 
 
 const publishableKey=import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -35,6 +37,7 @@ const router = createBrowserRouter([{
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ClerkProvider publishableKey={publishableKey}>
+      <ToastContainer position="top-center" pauseOnHover={false} theme="dark" autoClose="3000" transition={Zoom} />
       <RouterProvider router={router} />
     </ClerkProvider>
   </StrictMode>

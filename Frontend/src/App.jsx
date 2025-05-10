@@ -12,8 +12,10 @@ import axios from "axios"
 import {format} from "timeago.js"
 import Pins from '../../Backend/src/models/Pins.model';
 import Navbar from './components/Navbar';
-import { useAuth } from '@clerk/clerk-react';
+// import { useAuth } from '@clerk/clerk-react';
 import { useUser } from '@clerk/clerk-react';
+import { toast } from 'react-toastify';
+
 
 function App() {
   const [pins, setPins]=useState([])
@@ -94,15 +96,23 @@ function App() {
 
   const [showPopup,setShowPopup]=useState(false)
   const [newPlace, setNewPlace]=useState(null)
+  const [signInMsg, setSignInMsg]=useState(false)
   
   const handleAddClick=(e)=>{
-    const long=e.lngLat.lng
-    const lat=e.lngLat.lat
-    // console.log(long, lat)
-    setNewPlace({
-      long, 
-      lat
-    })
+    if (isSignedIn) {
+      const long=e.lngLat.lng
+      const lat=e.lngLat.lat
+      // console.log(long, lat)
+      setNewPlace({
+        long, 
+        lat
+      })
+      setSignInMsg(false)
+    }
+    else{
+      setSignInMsg(true)
+      toast("Please Login")
+    }
   }
   const handleSubmit=async (e)=>{
     e.preventDefault()
@@ -134,6 +144,11 @@ function App() {
       onMove={nextViewport => setViewport(nextViewport.viewState)} 
       onDblClick={handleAddClick}
     >
+      {/* {
+        signInMsg && <div>
+
+        </div>
+      } */}
       {pins.map((p)=>(
         <Marker 
         key={p._id}
