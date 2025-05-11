@@ -60,6 +60,10 @@ function App() {
     );
   }, []);
 
+  if (!viewport) {
+    return <div>Loading map...</div>;
+  }
+
   const a=null;
 
   useEffect(()=>{
