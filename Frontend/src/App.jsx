@@ -130,7 +130,12 @@ function App() {
   }, [isSignedIn])
 
 
-  const [viewport, setViewport] = useState({});
+  const [viewport, setViewport] = useState({
+    longitude: 77.2088, // Default longitude 
+    latitude: 28.6139,  // Default latitude 
+    zoom: 12
+
+  });
 
   const [showPopup,setShowPopup]=useState(false)
   const [newPlace, setNewPlace]=useState(null)
@@ -184,8 +189,8 @@ function App() {
     >
       {
         <Marker 
-          longitude={l1}
-          latitude={l2}
+          longitude={l1 || 77.2088}
+          latitude={l2 || 28.6139}
           offsetLeft={-viewport.zoom * 1.5}
           offsetTop={-viewport.zoom * 3}
         >

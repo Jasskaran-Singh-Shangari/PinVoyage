@@ -8,7 +8,7 @@ const ThemeContextProvider=({children})=>{
         localStorage.setItem("theme", theme)
     }, [theme])
     
-    localStorage.setItem("theme", theme )
+    // localStorage.setItem("theme", theme )
     return (
         <ThemeContext.Provider value={{theme, setTheme}}>
             {children}
