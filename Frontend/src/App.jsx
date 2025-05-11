@@ -34,6 +34,12 @@ function App() {
   const {theme}=useContext(ThemeContext)
   const [l1, setL1]=useState()
   const [l2, setL2]=useState()
+  const [viewport, setViewport] = useState({
+    longitude: 77.2088, // Default longitude 
+    latitude: 28.6139,  // Default latitude 
+    zoom: 12
+
+  });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -134,12 +140,7 @@ function App() {
   }, [isSignedIn])
 
 
-  const [viewport, setViewport] = useState({
-    longitude: 77.2088, // Default longitude 
-    latitude: 28.6139,  // Default latitude 
-    zoom: 12
-
-  });
+  
 
   const [showPopup,setShowPopup]=useState(false)
   const [newPlace, setNewPlace]=useState(null)
@@ -188,12 +189,7 @@ function App() {
       viewState={viewport}
       style={{ width: '100vw', height: '100vh' }}
       mapStyle={ localStorage.getItem("theme") || "mapbox://styles/rebel-osuda/cm9zcfcgc00xf01s5gnkbeivk" }
-      onMove={nextViewport => {
-        if (evt?.viewState?.longitude && evt?.viewState?.latitude) {
-          setViewport(evt.viewState);
-        }
-        // setViewport(nextViewport.viewState)
-      }} 
+      onMove={nextViewport => {setViewport(nextViewport.viewState)}} 
       onDblClick={handleAddClick}
     >
       {
