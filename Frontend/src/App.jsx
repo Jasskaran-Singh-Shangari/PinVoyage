@@ -188,7 +188,12 @@ function App() {
       viewState={viewport}
       style={{ width: '100vw', height: '100vh' }}
       mapStyle={ localStorage.getItem("theme") || "mapbox://styles/rebel-osuda/cm9zcfcgc00xf01s5gnkbeivk" }
-      onMove={nextViewport => setViewport(nextViewport.viewState)} 
+      onMove={nextViewport => {
+        if (evt?.viewState?.longitude && evt?.viewState?.latitude) {
+          setViewport(evt.viewState);
+        }
+        // setViewport(nextViewport.viewState)
+      }} 
       onDblClick={handleAddClick}
     >
       {
