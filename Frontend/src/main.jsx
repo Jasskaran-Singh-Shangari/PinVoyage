@@ -9,7 +9,7 @@ import LoginPage from './routes/LoginPage.jsx'
 import Register from './routes/Register.jsx'
 import { ToastContainer, Zoom } from 'react-toastify';
 import ThemeContextProvider from './Context/ThemeContextProvider.jsx'
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 
 
