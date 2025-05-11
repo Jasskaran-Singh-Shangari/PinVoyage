@@ -4,8 +4,10 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Map, {Marker, Popup, FullscreenControl} from 'react-map-gl/mapbox';
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
+// import StarIcon from '@mui/icons-material/Star';
 import RoomIcon from '@mui/icons-material/Room';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import PersonPinRoundedIcon from '@mui/icons-material/PersonPinRounded';
 import CircleIcon from '@mui/icons-material/Circle';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from "axios"
@@ -30,6 +32,39 @@ function App() {
   const [currentUser,setCurrentUser]=useState()
   // const [mapTheme, setMapTheme]=useState()
   const {theme}=useContext(ThemeContext)
+  const [l1, setL1]=useState()
+  const [l2, setL2]=useState()
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position.coords.longitude)
+        console.log(position.coords.latitude)
+        setL1(position.coords.longitude)
+        setL2(position.coords.latitude)
+        setViewport({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
+          zoom: 12
+        })
+      },
+      (error) => {
+        console.log(`ERROR: ${error.message}`);
+      }, 
+      {
+        enableHighAccuracy: true, 
+        timeout: 10000,
+        maximumAge: 0
+      }
+    
+    );
+  }, []);
+
+  const a=null;
+
+  useEffect(()=>{
+    toast.info("Your location may be approximate.")
+  }, [a])
   
 
   useEffect(()=>{
@@ -45,9 +80,9 @@ function App() {
     getPins()
   }, []) 
 
-  useEffect(()=>{
-    console.log(theme)
-  }, [theme])
+  // useEffect(()=>{
+  //   console.log(theme)
+  // }, [theme])
 
   // if (!isSignedIn){
   //   console.log(user)
@@ -95,11 +130,7 @@ function App() {
   }, [isSignedIn])
 
 
-  const [viewport, setViewport] = useState({
-    longitude: 76.78,
-    latitude: 30.73,
-    zoom: 12
-  });
+  const [viewport, setViewport] = useState({});
 
   const [showPopup,setShowPopup]=useState(false)
   const [newPlace, setNewPlace]=useState(null)
@@ -145,17 +176,28 @@ function App() {
   return (
     <Map
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN}
-      initialViewState={viewport}
+      viewState={viewport}
       style={{ width: '100vw', height: '100vh' }}
-      mapStyle={theme}
+      mapStyle={ localStorage.getItem("theme") || "mapbox://styles/rebel-osuda/cm9zcfcgc00xf01s5gnkbeivk" }
       onMove={nextViewport => setViewport(nextViewport.viewState)} 
       onDblClick={handleAddClick}
     >
-      {/* {
-        signInMsg && <div>
+      {
+        <Marker 
+          longitude={l1}
+          latitude={l2}
+          offsetLeft={-viewport.zoom * 1.5}
+          offsetTop={-viewport.zoom * 3}
+        >
+        <PersonPinRoundedIcon onHover={()=>{}}
+          style={{ fontSize: viewport.zoom * 3, 
+          color: "#00f", 
+          cursor:"pointer",
+          // boxShadow: "100px"
+          }}  />
+        </Marker>
 
-        </div>
-      } */}
+      }
       {pins.map((p)=>(
         <Marker 
         key={p._id}
@@ -172,7 +214,9 @@ function App() {
             setShowPopup(false)}}>
           < RoomIcon style={{ fontSize: viewport.zoom * 3, 
           color: p.color, 
-          cursor:"pointer" }}  
+          cursor:"pointer",
+          // boxShadow:"100px" 
+          }}  
           />
           {
             showPopup && p._id===hoverId && <Popup longitude={p.long} latitude={p.lat}

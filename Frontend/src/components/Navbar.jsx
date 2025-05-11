@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { SearchBox } from '@mapbox/search-js-react';
@@ -11,8 +11,8 @@ import ThemeContext  from '../Context/ThemeContext';
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const savedTheme=localStorage.getItem("theme")
-  const {setTheme}=useContext(ThemeContext)
+  // const savedTheme=localStorage.getItem("theme")
+  const {theme, setTheme}=useContext(ThemeContext)
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,6 +20,11 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(()=>{
+    localStorage.setItem("theme", theme)
+    console.log(localStorage.getItem("theme"))
+  }, [theme])
 
   return (
     <div className='absolute top-[6px] right-[50px] flex gap-2 flex-row-reverse'>
