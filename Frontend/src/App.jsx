@@ -12,7 +12,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import axios from "axios"
 import {format} from "timeago.js"
-import Pins from '../../Backend/src/models/Pins.model';
+// import Pins from '../../Backend/src/models/Pins.model';
 import Navbar from './components/Navbar';
 // import { useAuth } from '@clerk/clerk-react';
 import { useUser } from '@clerk/clerk-react';
